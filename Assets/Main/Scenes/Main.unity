@@ -57686,7 +57686,7 @@ MonoBehaviour:
   cam: {fileID: 330585545}
   firePoint: {fileID: 75272607}
   bulletPrefab: {fileID: 8057894925779256607, guid: 458d5f103bd43e5458696fba09f7ee8f, type: 3}
-  maxAmmo: 20
+  maxAmmo: 30
   reloadTime: 2
   fireRate: 0.1
   bulletSpeed: 40
