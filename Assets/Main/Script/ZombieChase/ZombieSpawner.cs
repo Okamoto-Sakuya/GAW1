@@ -1,22 +1,27 @@
+using System.Collections;
 using UnityEngine;
 
 public class ZombieSpawner : MonoBehaviour
 {
     public GameObject zombiePrefab;
+
     public Transform[] spawnPoints;
 
-    public float spawnInterval = 3f;
+    public float spawnInterval = 1f;
 
-    void Start()
+    public IEnumerator SpawnWave(int count)
     {
-        InvokeRepeating(nameof(SpawnZombie), 1f, spawnInterval);
-    }
+        for (int i = 0; i < count; i++)
+        {
+            int index = Random.Range(0, spawnPoints.Length);
 
-    void SpawnZombie()
-    {
-        int index = Random.Range(0, spawnPoints.Length);
-        Transform point = spawnPoints[index];
+            Instantiate(
+                zombiePrefab,
+                spawnPoints[index].position,
+                spawnPoints[index].rotation
+            );
 
-        Instantiate(zombiePrefab, point.position, point.rotation);
+            yield return new WaitForSeconds(spawnInterval);
+        }
     }
 }

@@ -1125,6 +1125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4857910229929329986}
+  - component: {fileID: -1239307810399321696}
   - component: {fileID: -1873223207488825936}
   - component: {fileID: 5415707757535079397}
   - component: {fileID: 1357825071327016760}
@@ -1156,6 +1157,19 @@ Transform:
   - {fileID: 1857616493531296887}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1239307810399321696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2313124501504177940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb24af33e7662a841904694fbc45bdd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ZombieAttack
+  sceneName: End
 --- !u!114 &-1873223207488825936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,7 +1195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba4b8c5b7e1dd6f4489d201715a0de60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieChase
-  player: {fileID: 0}
 --- !u!95 &1357825071327016760
 Animator:
   serializedVersion: 7
@@ -1229,7 +1242,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 1.3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
