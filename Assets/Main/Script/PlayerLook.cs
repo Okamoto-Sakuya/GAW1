@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,10 +16,12 @@ public class PlayerController : MonoBehaviour
     public float bobAmount = 0.05f;
     public float returnSpeed = 5f;
 
+    [Header("Scene Change")]
+    public string sceneName;
+
     public Transform cameraTransform;
 
     float xRotation = 0f;
-
     float bobTimer = 0f;
     Vector3 cameraStartPos;
 
@@ -70,7 +73,6 @@ public class PlayerController : MonoBehaviour
 
         if (isMoving)
         {
-            // タイマーはリセットしない（ここ重要）
             bobTimer += Time.deltaTime * bobSpeed;
 
             float bobX = Mathf.Cos(bobTimer) * bobAmount;
@@ -86,12 +88,19 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // なめらかに戻す（リセットしない）
             cameraTransform.localPosition = Vector3.Lerp(
                 cameraTransform.localPosition,
                 cameraStartPos,
                 Time.deltaTime * returnSpeed
             );
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene(sceneName);
         }
     }
 }
