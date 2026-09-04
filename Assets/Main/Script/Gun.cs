@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TMPro;
 
 public class Gun : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bulletPrefab;
+
+    [Header("Ammo UI")]
+    [SerializeField] private TMP_Text ammoText;
 
     [Header("Gun Settings")]
     [SerializeField] private int maxAmmo = 30;
@@ -22,8 +26,17 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
-        if (cam == null) cam = Camera.main;
+        if (cam == null)
+            cam = Camera.main;
+
         currentAmmo = maxAmmo;
+
+        // 弾数表示を更新
+        UpdateAmmoUI();
+
+        // カーソルを表示
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()
@@ -32,20 +45,27 @@ public class Gun : MonoBehaviour
         {
             Debug.Log("クリックしてる");
         }
-        if (isReloading) return;
 
-        // ?? 左クリック長押しで連射
+        if (isReloading)
+            return;
+
+        // 左クリック長押しで連射
         if (Mouse.current.leftButton.isPressed)
         {
             if (Time.time >= nextFireTime && currentAmmo > 0)
             {
                 Shoot();
+
                 currentAmmo--;
+
+                // 弾数表示更新
+                UpdateAmmoUI();
+
                 nextFireTime = Time.time + fireRate;
             }
         }
 
-        // ?? Rキーでリロード
+        // Rキーでリロード
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
             if (currentAmmo < maxAmmo)
@@ -56,11 +76,16 @@ public class Gun : MonoBehaviour
     IEnumerator Reload()
     {
         isReloading = true;
+
         Debug.Log("リロード中...");
 
         yield return new WaitForSeconds(reloadTime);
 
         currentAmmo = maxAmmo;
+
+        // 弾数表示更新
+        UpdateAmmoUI();
+
         isReloading = false;
 
         Debug.Log("リロード完了");
@@ -68,7 +93,9 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Ray ray = cam.ViewportPointToRay(
+            new Vector3(0.5f, 0.5f, 0f)
+        );
 
         Vector3 targetPoint;
 
@@ -79,7 +106,8 @@ public class Gun : MonoBehaviour
 
         if (bulletPrefab != null && firePoint != null)
         {
-            Vector3 dir = (targetPoint - firePoint.position).normalized;
+            Vector3 dir =
+                (targetPoint - firePoint.position).normalized;
 
             GameObject bullet = Instantiate(
                 bulletPrefab,
@@ -90,13 +118,29 @@ public class Gun : MonoBehaviour
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
             if (rb != null)
+            {
                 rb.velocity = dir * bulletSpeed;
+            }
             else
+            {
                 Debug.LogError("Rigidbodyが弾に付いてない");
+            }
         }
         else
         {
             Debug.LogError("bulletPrefab or firePoint 未設定");
+        }
+    }
+
+    // =========================
+    // 弾数UI更新
+    // =========================
+
+    void UpdateAmmoUI()
+    {
+        if (ammoText != null)
+        {
+            ammoText.text = currentAmmo + " / " + maxAmmo;
         }
     }
 }
