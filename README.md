@@ -146,3 +146,19 @@ Zombie
 * ボスゾンビ
 * UI（HP・ラウンド表示）
 * サウンド追加
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img width="1904" height="1068" alt="スクリーンショット 2026-09-04 141918" src="https://github.com/user-attachments/assets/f0b01d71-5033-4a51-a49a-6e164ec2512b" />
+
